@@ -10,7 +10,7 @@ public abstract class Hangman {
 	private int totalGuess;
 	
 	private ArrayList<Character> incorrectGuess = new ArrayList<Character>();
-	private CharSequence[] updatedWord;
+	//private CharSequence[] updatedWord;
 	private String userWord = "";
 	
 
@@ -19,13 +19,13 @@ public abstract class Hangman {
 		this.selectedWord = selectedWord;
 		this.lengthOfWord = selectedWord.length();
 		this.totalGuess = 0;
-		this.updatedWord = new CharSequence[this.lengthOfWord];  //[ _, , ,]
-		StringBuilder builder = new StringBuilder();
+		//this.updatedWord = new CharSequence[this.lengthOfWord];  //[ _, , ,]
+		//StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < this.lengthOfWord; i++) {
-			this.updatedWord[i] = "_";
+			this.userWord += "_";
 		}
 		// convert updateWord array to string  // "_______"
-		this.userWord = Arrays.toString(this.updatedWord);
+		//this.userWord = Arrays.toString(this.updatedWord);
 	
 
 	}
@@ -64,14 +64,14 @@ public abstract class Hangman {
 		this.incorrectGuess = incorrectGuess;
 	}
 
-	public char[] getUpdatedWord() {
-		return updatedWord;
-	}
-
-	public void setUpdatedWord(CharSequence[] updatedWord) {
-		this.updatedWord = updatedWord;
-	}
-	
+//	public char[] getUpdatedWord() {
+//		return updatedWord;
+//	}
+//
+//	public void setUpdatedWord(CharSequence[] updatedWord) {
+//		this.updatedWord = updatedWord;
+//	}
+//	
 	public String getUserWord() {
 		return userWord;
 	}
@@ -109,8 +109,9 @@ public abstract class Hangman {
 	public void updateUserWord(int index, char letter) {
 		// access index of selectedWord 
 		// update updatedWord[]
-		this.updatedWord[index] = (CharSequence)letter;
-		this.userWord = String.join(",", this.updatedWord);
+		//this.updatedWord[index] = (CharSequence)letter;
+		//this.userWord = String.join(",", this.updatedWord);
+		this.userWord = this.userWord.substring(0,index) + letter + this.userWord.substring(index + 1);
 
 		
 		
@@ -130,7 +131,7 @@ public abstract class Hangman {
 		// 1. either userword array  -> striing
 		// 2. selectedString -> array
 	
-		if(this.userWord == this.selectedWord) {
+		if(this.userWord.equals(this.selectedWord)) {
 			return true;
 		}
 		return false;
