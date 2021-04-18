@@ -1,6 +1,7 @@
 package hangman;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class Hangman {
 	// instance variables
@@ -8,15 +9,24 @@ public abstract class Hangman {
 	private int lengthOfWord;
 	private int totalGuess;
 	
-	private ArrayList<String> incorrectGuess = new ArrayList<String>();
-	private String updatedWord[];
+	private ArrayList<Character> incorrectGuess = new ArrayList<Character>();
+	private CharSequence[] updatedWord;
+	private String userWord = "";
 	
+
 	// constructor
 	public Hangman(String selectedWord) {
 		this.selectedWord = selectedWord;
 		this.lengthOfWord = selectedWord.length();
 		this.totalGuess = 0;
-		this.updatedWord = new String[this.lengthOfWord];
+		this.updatedWord = new CharSequence[this.lengthOfWord];  //[ _, , ,]
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < this.lengthOfWord; i++) {
+			this.updatedWord[i] = "_";
+		}
+		// convert updateWord array to string  // "_______"
+		this.userWord = Arrays.toString(this.updatedWord);
+	
 
 	}
 	
@@ -46,33 +56,47 @@ public abstract class Hangman {
 		this.totalGuess = totalGuess;
 	}
 
-	public ArrayList<String> getIncorrectGuess() {
+	public ArrayList<Character> getIncorrectGuess() {
 		return incorrectGuess;
 	}
 
-	public void setIncorrectGuess(ArrayList<String> incorrectGuess) {
+	public void setIncorrectGuess(ArrayList<Character> incorrectGuess) {
 		this.incorrectGuess = incorrectGuess;
 	}
 
-	public String[] getUpdatedWord() {
+	public char[] getUpdatedWord() {
 		return updatedWord;
 	}
 
-	public void setUpdatedWord(String[] updatedWord) {
+	public void setUpdatedWord(CharSequence[] updatedWord) {
 		this.updatedWord = updatedWord;
 	}
 	
+	public String getUserWord() {
+		return userWord;
+	}
+
+	public void setUserWord(String userWord) {
+		this.userWord = userWord;
+	}
+	
 	// other methods
-	public void checkLetterInTheWord(Character letter) {
+	public void checkLetterInTheWord(char letter) {
 		// if checkLengthInTheWord true, 
-		if (selectedWord.indexOf(letter) != -1) {
-			// get the index of the char(letter)
-			int letterIdx = selectedWord.indexOf(letter);
-			// call updateUserWord(int indexToUpdate)
-			updateUserWord(letterIdx);
+		this.totalGuess++;
+		int firstOccurenceIdx = selectedWord.indexOf(letter);
+		if (firstOccurenceIdx != -1) {
+			// for loop, and add index into the list and pass list
+			for (int i = firstOccurenceIdx; i < lengthOfWord; i++) {
+				if (this.selectedWord.charAt(i) == letter) {
+					this.updateUserWord(i, letter);
+					
+				}
+			}
 			
 		} else {
 			// otherwise, add it to incorrectGuesses (call addIncorrectGuesses())
+			this.incorrectGuess.add(letter);
 			
 		}
 		 
@@ -82,10 +106,12 @@ public abstract class Hangman {
 	 * 
 	 * @param index
 	 */
-	public void updateUserWord(int index) {
+	public void updateUserWord(int index, char letter) {
 		// access index of selectedWord 
 		// update updatedWord[]
-		
+		this.updatedWord[index] = (CharSequence)letter;
+		this.userWord = String.join(",", this.updatedWord);
+
 		
 		
 	}
@@ -93,9 +119,21 @@ public abstract class Hangman {
 	/**
 	 * 
 	 */
-	void addIncorrectGuesses(letter) {
+	public void addIncorrectGuesses(char letter) {
 		// add letter to incorrectGuesses arrayList
+		this.incorrectGuess.add(letter);
 		
+	}
+	
+	public boolean isGameOver() {
+		// check the userWord array is same as array ver of selectedWord
+		// 1. either userword array  -> striing
+		// 2. selectedString -> array
+	
+		if(this.userWord == this.selectedWord) {
+			return true;
+		}
+		return false;
 	}
 
 }
