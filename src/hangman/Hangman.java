@@ -1,7 +1,7 @@
 package hangman;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 
 public abstract class Hangman {
 	// instance variables

@@ -5,9 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.Stream;
+
+import hangman.EvilHangman;
 
 //import com.sun.tools.javac.util.List;
 
@@ -89,8 +92,7 @@ public class HangmanGame {
 			e.printStackTrace();
 		}
 		
-		fileReader.close();
-		bufferedReader.close();
+		
 
 		
 //		// To read a whole line with the BufferedReader, use the readLine method
@@ -108,8 +110,27 @@ public class HangmanGame {
 		
 		// pass that word to the Hanman(either traditioal hangman or evil)
 		
+		// randomly select game - traditional or evil
+		boolean hangmanVersion = rand.nextInt(2) == 0 ? true : false;
+		Hangman hangman;
 		Scanner scanner = new Scanner(System.in);
-		Hangman tradHang = new TraditionalHangman();
+		if(hangmanVersion) {
+			hangman = new TraditionalHangman(randomWord);
+		}else {
+			ArrayList<String> listWords = new ArrayList<String>();
+			String s = bufferedReader.readLine();
+			while(s != null) {
+				s = bufferedReader.readLine().strip();
+				if(s.length() == randomWord.length()) {
+					listWords.add(s);
+				}
+			}
+			hangman = new EvilHangman(randomWord, listWords);
+			
+		}
+		fileReader.close();
+		bufferedReader.close();
+		
 		boolean playing = true;
 		System.out.println("Welcome to Hangman");
 		while(playing) {
@@ -117,12 +138,12 @@ public class HangmanGame {
 			// nextLine() :take string, nextInt(): takes int, next(): 
 			//char letter = scanner.next().charAt(0);
 			
-			System.out.println(tradHang.getUserWord());
-			System.out.println("Total Guess " + tradHang.getTotalGuess());
-			System.out.println("Incorrect Guesses " + tradHang.getIncorrectGuess());
+			System.out.println(hangman.getUserWord());
+			System.out.println("Total Guess " + hangman.getTotalGuess());
+			System.out.println("Incorrect Guesses " + hangman.getIncorrectGuess());
 			char letter = scanner.next().charAt(0);
-			tradHang.checkLetterInTheWord(letter);
-			if(tradHang.isGameOver()) {
+			hangman.checkLetterInTheWord(letter);
+			if(hangman.isGameOver()) {
 				playing = false;
 				System.out.println("Over");
 			}
