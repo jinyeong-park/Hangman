@@ -91,7 +91,8 @@ public class HangmanGame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		fileReader.close();
+		bufferedReader.close();
 		
 
 		
@@ -106,24 +107,38 @@ public class HangmanGame {
 //		System.out.println(s);
 		System.out.println(randomWord);
 
-	
+		
 		
 		// pass that word to the Hanman(either traditioal hangman or evil)
 		
 		// randomly select game - traditional or evil
 		boolean hangmanVersion = rand.nextInt(2) == 0 ? true : false;
+		System.out.println(hangmanVersion);
 		Hangman hangman;
 		Scanner scanner = new Scanner(System.in);
 		if(hangmanVersion) {
 			hangman = new TraditionalHangman(randomWord);
 		}else {
+			File file = new File(pathToFie);
+
+			FileReader reader = null;
+			try {
+				reader = new FileReader(file);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			BufferedReader bfr = new BufferedReader(reader);
 			ArrayList<String> listWords = new ArrayList<String>();
-			String s = bufferedReader.readLine();
+			String s = bfr.readLine();
 			while(s != null) {
-				s = bufferedReader.readLine().strip();
+				
+				s = s.strip();
 				if(s.length() == randomWord.length()) {
+					System.out.println(s);
 					listWords.add(s);
 				}
+				s = bfr.readLine();
 			}
 			hangman = new EvilHangman(randomWord, listWords);
 			

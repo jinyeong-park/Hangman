@@ -52,8 +52,8 @@ public abstract class Hangman {
 		return totalGuess;
 	}
 
-	public void setTotalGuess(int totalGuess) {
-		this.totalGuess = totalGuess;
+	public void setTotalGuess() {
+		this.totalGuess++;
 	}
 
 	public ArrayList<Character> getIncorrectGuess() {
