@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
+import dictionary.CleaningText;
 import hangman.EvilHangman;
 
 //import com.sun.tools.javac.util.List;
@@ -56,12 +57,21 @@ public class HangmanGame {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
+		
+		
+		CleaningText ct = new CleaningText("words.txt", "our_dictionary.txt");
+		ct.cleaningFile();
+	
+		
+		
+		
+		
 		// open the file
 		// somehow randomly select the word from file
 		// changed file name to our cleaned file later
 //		System.out.println("hello");
-		String pathToFie = "words_clean.txt";
-		
+		//String pathToFie = "words_clean.txt";
+		String pathToFie = ct.getCleanFile();
 		//1. First, create a File object
 		File myFile = new File(pathToFie);
 
